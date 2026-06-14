@@ -1,79 +1,92 @@
 # AgentWatch
 
-AgentWatch es una plataforma enterprise de observabilidad, auditoria y control para agentes AI y automatizaciones. Su enfoque no es una app generica de IA ni un chatbot de demostracion: el producto busca registrar eventos, explicarlos en espanol, detectar riesgo, solicitar aprobaciones humanas y generar reportes utilizables por negocio, integradores, clientes y auditoria.
+AgentWatch es una plataforma enterprise de observabilidad, auditoria y control para agentes AI y automatizaciones. Su objetivo es ayudar a empresas, integradores y equipos operativos de Latam y Espana a entender que hizo un agente, detectar riesgo, aprobar acciones delicadas y generar evidencia clara en espanol.
 
-## Vision del producto
+## Propuesta de valor
 
-AgentWatch esta pensado para PYMEs, integradores y equipos operativos de Latam y Espana que ya usan agentes AI, flujos n8n/Make o automatizaciones custom, pero necesitan una capa de trazabilidad y control.
+AgentWatch convierte eventos tecnicos de agentes, workflows e integraciones en un historial entendible para negocio.
 
-La propuesta central del MVP v1.1 es:
+La plataforma permite:
 
-> Mirar que hizo el agente, entenderlo en espanol, aprobar lo delicado y generar evidencia compartible.
+- registrar actividad de agentes y automatizaciones;
+- traducir eventos tecnicos a lenguaje de negocio en espanol;
+- clasificar riesgo operativo;
+- solicitar aprobaciones humanas para acciones sensibles;
+- generar reportes exportables;
+- mantener trazabilidad y auditoria por organizacion.
 
-## Enfoque actual
+## Problema que resuelve
 
-El core actual del producto es observabilidad basada en eventos, no grabacion continua de pantalla.
+Muchas herramientas de observabilidad para agentes AI estan pensadas para equipos tecnicos, en ingles y con integraciones complejas. AgentWatch apunta a un mercado distinto: empresas y operadores que necesitan control, evidencia y explicaciones claras sin depender de instrumentacion pesada ni de equipos avanzados de ML.
 
-Capacidades principales del MVP:
+## Enfoque del MVP
 
-- gestion de organizaciones, usuarios, roles y agentes;
-- ingesta de eventos por API y webhook;
-- timeline entendible por negocio;
+El MVP v1.1 prioriza observabilidad basada en eventos. La captura visual continua no es el nucleo del producto.
+
+Capacidades incluidas:
+
+- organizaciones, usuarios y roles;
+- registro de agentes;
+- API y webhook para ingesta de eventos;
+- timeline de actividad;
+- resumen en espanol por evento;
 - clasificacion basica de riesgo;
-- aprobaciones humanas para acciones sensibles;
+- aprobaciones humanas;
 - notificaciones;
-- reportes PDF en espanol;
-- evidencia visual opcional y manual, desactivada por defecto.
+- reportes PDF;
+- evidencia visual opcional y manual.
 
 ## Usuarios objetivo
 
 - integradores y agencias que implementan automatizaciones para clientes;
-- vibecoders y freelancers tecnicos que necesitan trazabilidad sin instrumentacion pesada;
-- duenos y operadores de PYMEs que necesitan entender que hizo un agente sin leer logs tecnicos.
+- freelancers tecnicos y vibecoders que necesitan trazabilidad simple;
+- PYMEs que ya usan agentes AI o flujos automatizados;
+- equipos operativos y de supervision que requieren historial, control y reportes.
+
+## Dominios funcionales
+
+La plataforma se apoya en estos dominios principales:
+
+- `organizations`: empresas o espacios de trabajo;
+- `users` y `roles`: control de acceso y responsabilidades;
+- `agents`: agentes AI, scripts, workflows y automatizaciones monitoreadas;
+- `events`: registro central de actividad;
+- `risk_rules`: reglas de riesgo y control;
+- `approvals`: aprobaciones humanas;
+- `notifications`: alertas y avisos operativos;
+- `reports`: reportes exportables;
+- `audit_logs`: trazabilidad de cambios sensibles.
 
 ## Arquitectura funcional
 
-Las piezas principales del producto son:
+Flujo principal del producto:
 
-- `organizations`: tenant principal de la plataforma.
-- `agents`: agentes AI, workflows, scripts o automatizaciones monitoreadas.
-- `events`: registro central de actividad.
-- `risk_rules`: reglas de clasificacion y bloqueo.
-- `approvals`: decisiones humanas sobre acciones delicadas.
-- `notifications`: alertas y avisos operativos.
-- `reports`: reportes exportables para negocio y auditoria.
-- `audit_logs`: trazabilidad interna de cambios sensibles.
+1. Un agente o integracion envia eventos.
+2. AgentWatch valida, normaliza y almacena la actividad.
+3. El sistema genera resumen entendible y clasifica riesgo.
+4. Si aplica, crea una aprobacion humana.
+5. El evento aparece en timeline, alertas y reportes.
 
-## Multi-dominio
+## Mercado objetivo
 
-El proyecto contempla trabajar con superficies sobre dominios `.com`, `.ai` y `.so` como parte de un mismo ecosistema de producto. El repositorio y las skills deben asumir que esos dominios pertenecen a una estrategia coordinada de plataforma y no a demos separadas.
+El enfoque comercial inicial esta en Latam hispanohablante y Espana:
 
-Mientras la asignacion exacta de responsabilidades por dominio se termina de definir, cualquier implementacion debe:
+- Ecuador
+- Colombia
+- Peru
+- Mexico
+- Espana
 
-- mantener coherencia de marca y producto;
-- evitar duplicar logica por dominio;
-- modelar claramente URLs, callbacks, auth y configuracion por superficie.
+La propuesta combina observabilidad, control operativo y reportes orientados a contextos de negocio y cumplimiento regional.
+
+## Multi-dominio de producto
+
+AgentWatch contempla una estrategia de superficies sobre dominios `.com`, `.ai` y `.so` como parte de un mismo ecosistema digital. La implementacion debe mantener coherencia de producto, identidad, seguridad y configuracion entre esas superficies.
 
 ## Documentacion base
 
-La vision y el alcance actual del proyecto estan sustentados por:
+La definicion actual del producto se apoya en:
 
 - [Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_v1_0_1_actualizado.md](Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_v1_0_1_actualizado.md)
 - [Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_V1.md](Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_V1.md)
 - `Docs/Docs_No_Eliminar/AgentWatch_Latam_documento_empresarial_arquitectonico.pdf`
-
-## Estado del repositorio
-
-En este momento el repositorio esta orientado a definicion de producto, arquitectura y skills de trabajo para Codex alineadas al dominio AgentWatch. Aun no hay una implementacion completa del sistema en este repo.
-
-## Skills locales
-
-Durante esta fase se estan usando skills locales especializadas para:
-
-- backend enterprise enfocado en AgentWatch;
-- frontend UI/UX orientado a dashboard, aprobaciones y reportes;
-- arquitectura enterprise;
-- gobierno de datos;
-- seguridad transversal.
-
-Las versiones temporales de trabajo viven en `.tmp-skills/`, pero esa carpeta se ignora en Git porque sirve como espacio local de iteracion.
