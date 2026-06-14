@@ -78,15 +78,3 @@ El enfoque comercial inicial esta en Latam hispanohablante y Espana:
 - Espana
 
 La propuesta combina observabilidad, control operativo y reportes orientados a contextos de negocio y cumplimiento regional.
-
-## Multi-dominio de producto
-
-AgentWatch contempla una estrategia de superficies sobre dominios `.com`, `.ai` y `.so` como parte de un mismo ecosistema digital. La implementacion debe mantener coherencia de producto, identidad, seguridad y configuracion entre esas superficies.
-
-## Documentacion base
-
-La definicion actual del producto se apoya en:
-
-- [Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_v1_0_1_actualizado.md](Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_v1_0_1_actualizado.md)
-- [Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_V1.md](Docs/Docs_No_Eliminar/AgentWatch_Latam_requerimientos_V1.md)
-- `Docs/Docs_No_Eliminar/AgentWatch_Latam_documento_empresarial_arquitectonico.pdf`
