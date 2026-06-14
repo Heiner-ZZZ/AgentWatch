@@ -1,0 +1,40 @@
+# Windows
+desktop.ini
+Thumbs.db
+
+# Editor and OS
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build and coverage
+dist/
+build/
+coverage/
+.coverage
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Temporary local skill work
+.tmp-skills/
