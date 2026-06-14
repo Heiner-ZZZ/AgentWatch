@@ -24,12 +24,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.next/
+.turbo/
 
 # Build and coverage
 dist/
 build/
 coverage/
 .coverage
+*.tsbuildinfo
+apps/*/dist/
+apps/*/.next/
+playwright-report/
+test-results/
+.pytest_cache/
 
 # Local environment
 .env
@@ -38,3 +46,7 @@ coverage/
 
 # Temporary local skill work
 .tmp-skills/
+
+# Python services
+services/ai/.venv/
+services/ai/.pytest_cache/
