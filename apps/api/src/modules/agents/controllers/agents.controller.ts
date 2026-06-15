@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { CurrentUser } from '../../../common/auth/decorators/current-user.decorator';
 import { SessionAuthGuard } from '../../../common/auth/guards/session-auth.guard';
 import { apiResponse } from '../../../common/http/presenters/api-response.presenter';
 import { CreateAgentDto } from '../dto/create-agent.dto';
@@ -11,27 +12,31 @@ export class AgentsController {
   constructor(private readonly agentsService: AgentsService) {}
 
   @Get()
-  findAll() {
-    return apiResponse(this.agentsService.findAll());
+  async findAll(@CurrentUser() user: { id: string }) {
+    return apiResponse(await this.agentsService.findAll(user.id));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return apiResponse(this.agentsService.findOne(id));
+  async findOne(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return apiResponse(await this.agentsService.findOne(id, user.id));
   }
 
   @Post()
-  create(@Body() payload: CreateAgentDto) {
-    return apiResponse(this.agentsService.create(payload), 'Agent created.');
+  async create(@Body() payload: CreateAgentDto, @CurrentUser() user: { id: string }) {
+    return apiResponse(await this.agentsService.create(payload, user.id), 'Agent created.');
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateAgentDto) {
-    return apiResponse(this.agentsService.update(id, payload), 'Agent updated.');
+  async update(
+    @Param('id') id: string,
+    @Body() payload: UpdateAgentDto,
+    @CurrentUser() user: { id: string },
+  ) {
+    return apiResponse(await this.agentsService.update(id, payload, user.id), 'Agent updated.');
   }
 
   @Post(':id/rotate-key')
-  rotateKey(@Param('id') id: string) {
-    return apiResponse(this.agentsService.rotateKey(id), 'Agent key rotated.');
+  async rotateKey(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return apiResponse(await this.agentsService.rotateKey(id, user.id), 'Agent key rotated.');
   }
 }
