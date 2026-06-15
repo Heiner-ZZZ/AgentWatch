@@ -42,4 +42,20 @@ Soportar flujo basico de aprobar o rechazar eventos de alto riesgo.
 
 ## Estado actual
 
-Pendiente.
+Cerrado para su alcance MVP.
+
+## Evidencia de cierre
+
+- tabla `approvals` persistida;
+- creacion automatica de aprobacion al detectar riesgo alto o critico;
+- listado y detalle por tenant;
+- decision `approve` o `reject` con comentario y usuario;
+- actualizacion del estado del evento asociado;
+- auditoria de `approval.created`, `approval.approved`, `approval.rejected`;
+- vista `/approvals` conectada al API real.
+
+## Deuda posterior que no bloquea el cierre
+
+- expiracion o SLA;
+- escalamiento multinivel;
+- notificaciones automaticas.
