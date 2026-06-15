@@ -20,6 +20,7 @@ export type ReportOrganizationOption = {
 export type ReportCatalogOverview = {
   organizations: ReportOrganizationOption[];
   selectedOrganizationId: string | null;
+  selectedOrganizationName: string | null;
   reports: ReportCatalogItem[];
   connectionState: 'live' | 'empty' | 'error';
   message: string | null;

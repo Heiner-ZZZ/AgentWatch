@@ -8,8 +8,49 @@ type ReportCatalogProps = {
 };
 
 export function ReportCatalog({ overview }: ReportCatalogProps) {
+  const highlightedReports = [
+    { label: "Reportes", value: String(overview.reports.length), tone: "medium" as const },
+    {
+      label: "Organizaciones",
+      value: String(overview.organizations.length),
+      tone: "low" as const,
+    },
+    {
+      label: "Listos para auditoría",
+      value: String(overview.reports.filter((report) => report.approvalCount > 0).length),
+      tone: "high" as const,
+    },
+  ];
+
   return (
     <div className="space-y-6">
+      <section className="rounded-[28px] border border-slate-200 bg-[linear-gradient(130deg,rgba(15,23,42,0.98),rgba(21,56,72,0.9)),radial-gradient(circle_at_top_left,rgba(45,212,191,0.18),transparent_30%)] p-6 text-white shadow-xl">
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-3xl">
+            <h1 className="text-3xl font-semibold">Reportes ejecutivos y evidencia PDF</h1>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              {overview.selectedOrganizationName
+                ? `Evidencia exportable del tenant ${overview.selectedOrganizationName}, basada en eventos, riesgos y aprobaciones reales.`
+                : "Convierte actividad operativa real en evidencia exportable para owner, cliente o auditor."}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            {highlightedReports.map((item) => (
+              <div
+                key={item.label}
+                className="min-w-28 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+              >
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">{item.label}</p>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <p className="text-2xl font-semibold text-white">{item.value}</p>
+                  <Badge tone={item.tone}>{item.tone}</Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Card className="overflow-hidden p-0">
         <div className="bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.18),_transparent_55%),linear-gradient(135deg,_rgba(248,250,252,1),_rgba(226,232,240,0.95))] p-6">
           <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
@@ -18,8 +59,9 @@ export function ReportCatalog({ overview }: ReportCatalogProps) {
                 Reportes ejecutivos
               </h2>
               <p className="mt-1 max-w-2xl text-sm text-slate-600">
-                Genera evidencia PDF desde eventos, riesgos y aprobaciones reales
-                del tenant activo.
+                {overview.selectedOrganizationName
+                  ? `Genera PDF para ${overview.selectedOrganizationName} usando datos reales del período seleccionado.`
+                  : "Genera evidencia PDF desde eventos, riesgos y aprobaciones reales del tenant activo."}
               </p>
             </div>
             <Badge tone="medium">{overview.reports.length} reportes</Badge>

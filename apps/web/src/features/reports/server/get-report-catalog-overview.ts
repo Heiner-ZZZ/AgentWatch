@@ -60,11 +60,15 @@ export async function getReportCatalogOverview(): Promise<ReportCatalogOverview>
   try {
     const organizations = (await fetchReportOrganizations()).map(mapOrganization);
     const selectedOrganizationId = organizations[0]?.id ?? null;
+    const selectedOrganizationName =
+      organizations.find((organization) => organization.id === selectedOrganizationId)?.name ??
+      null;
 
     if (!selectedOrganizationId) {
       return {
         organizations: [],
         selectedOrganizationId: null,
+        selectedOrganizationName: null,
         reports: [],
         connectionState: "empty",
         message: "No hay organizaciones disponibles para generar reportes.",
@@ -79,6 +83,7 @@ export async function getReportCatalogOverview(): Promise<ReportCatalogOverview>
       return {
         organizations,
         selectedOrganizationId,
+        selectedOrganizationName,
         reports: [],
         connectionState: "empty",
         message: "Aun no existen reportes generados para esta organizacion.",
@@ -90,6 +95,7 @@ export async function getReportCatalogOverview(): Promise<ReportCatalogOverview>
     return {
       organizations,
       selectedOrganizationId,
+      selectedOrganizationName,
       reports,
       connectionState: "live",
       message: null,
@@ -100,6 +106,7 @@ export async function getReportCatalogOverview(): Promise<ReportCatalogOverview>
     return {
       organizations: [],
       selectedOrganizationId: null,
+      selectedOrganizationName: null,
       reports: [],
       connectionState: "error",
       message:
