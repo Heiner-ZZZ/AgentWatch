@@ -1,13 +1,10 @@
-import { Card } from "@/components/ui/card";
+import { AgentsHub } from "@/features/agents/components/agents-hub";
+import { getAgentsOverview } from "@/features/agents/server/get-agents-overview";
 
-export default function AgentsPage() {
-  return (
-    <Card className="p-6">
-      <h2 className="text-xl font-semibold text-slate-950">Agentes</h2>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        Estructura preparada para catalogo de agentes, sesiones, autonomia e
-        integraciones por organizacion.
-      </p>
-    </Card>
-  );
+export const dynamic = "force-dynamic";
+
+export default async function AgentsPage() {
+  const overview = await getAgentsOverview();
+
+  return <AgentsHub overview={overview} />;
 }
