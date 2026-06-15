@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { SecurityModule } from './common/security/security.module';
+import { DatabaseModule } from './infrastructure/database/modules/database.module';
 import { AgentsModule } from './modules/agents/agents.module';
 import { ApprovalsModule } from './modules/approvals/approvals.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -17,6 +19,8 @@ import { UsersModule } from './modules/users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DatabaseModule,
+    SecurityModule,
     AuthModule,
     UsersModule,
     HealthModule,
