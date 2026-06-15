@@ -1,4 +1,6 @@
 import {
+  IsArray,
+  IsBoolean,
   IsDateString,
   IsNotEmpty,
   IsObject,
@@ -11,6 +13,10 @@ export class CreateEventDto {
   @IsNotEmpty()
   agentId!: string;
 
+  @IsOptional()
+  @IsString()
+  sessionId?: string;
+
   @IsString()
   @IsNotEmpty()
   eventType!: string;
@@ -19,10 +25,30 @@ export class CreateEventDto {
   @IsNotEmpty()
   category!: string;
 
+  @IsString()
+  @IsNotEmpty()
+  source!: string;
+
+  @IsOptional()
+  @IsString()
+  sourceApp?: string;
+
   @IsDateString()
   occurredAt!: string;
 
   @IsOptional()
+  @IsString()
+  technicalSummary?: string;
+
+  @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsArray()
+  sensitiveFlags?: string[];
+
+  @IsString()
+  @IsNotEmpty()
+  idempotencyKey!: string;
 }
