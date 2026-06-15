@@ -28,11 +28,13 @@ describe('Sprint 1 CU - auth, organizations and agents (e2e)', () => {
     });
 
     await pool.query(readSql('001_agentwatch_sprint1_core.sql'));
+    await pool.query(readSql('004_agentwatch_sprint5_approvals.sql'));
   });
 
   beforeEach(async () => {
     await pool.query(`
       TRUNCATE TABLE
+        approvals,
         auth_sessions,
         api_keys,
         agents,

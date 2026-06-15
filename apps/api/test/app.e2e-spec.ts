@@ -29,6 +29,7 @@ describe('Sprint 3-4 CU - timeline and risk (e2e)', () => {
 
     await pool.query(readSql('001_agentwatch_sprint1_core.sql'));
     await pool.query(readSql('003_agentwatch_sprint2_events.sql'));
+    await pool.query(readSql('004_agentwatch_sprint5_approvals.sql'));
   });
 
   beforeEach(async () => {
