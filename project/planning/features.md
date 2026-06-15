@@ -280,7 +280,7 @@ Traducir actividad tecnica a lenguaje de negocio en espanol.
 
 **Estado**
 
-Base implementada.
+Cerrada para el alcance MVP de Sprint 4.
 
 ## FEA-07 Motor de riesgo
 
@@ -322,7 +322,7 @@ Clasificar eventos por impacto operativo para soporte de control humano.
 
 **Estado**
 
-Base implementada.
+Cerrada para el alcance MVP de Sprint 4.
 
 ## FEA-08 Aprobaciones humanas
 
@@ -366,7 +366,7 @@ Introducir control humano sobre acciones delicadas.
 
 **Estado**
 
-Pendiente.
+Cerrada para el alcance MVP de Sprint 5.
 
 ## FEA-09 Reportes PDF
 
@@ -408,11 +408,13 @@ Generar evidencia exportable para cliente, auditor o owner.
 **Criterios de aceptacion**
 
 - se puede generar reporte por periodo;
-- su contenido proviene de eventos reales.
+- su contenido proviene de eventos reales;
+- el reporte queda persistido y descargable;
+- la vista web consume el API real.
 
 **Estado**
 
-Pendiente.
+Cerrada para el alcance MVP de Sprint 6.
 
 ## FEA-10 Notificaciones
 

@@ -250,7 +250,7 @@ Hacer entendible el evento tecnico.
 
 **Estado**
 
-Base implementada y usada por Sprint 4.
+Cerrado para Sprint 4.
 
 ## BLI-007 Riesgo low medium high critical
 
@@ -288,7 +288,7 @@ Marcar impacto operativo y preparar aprobaciones.
 
 **Estado**
 
-Base implementada.
+Cerrado para Sprint 4.
 
 ## BLI-008 Crear aprobacion al detectar riesgo alto
 
@@ -326,7 +326,7 @@ Crear control humano formal sobre eventos sensibles.
 
 **Estado**
 
-Pendiente.
+Cerrado para Sprint 5.
 
 ## BLI-009 Vista de aprobaciones pendientes
 
@@ -362,7 +362,7 @@ Dar superficie de decision a operator o admin.
 
 **Estado**
 
-Pendiente.
+Cerrado para Sprint 5.
 
 ## BLI-010 Generar reporte PDF semanal
 
@@ -392,7 +392,9 @@ Transformar eventos y decisiones en evidencia ejecutiva exportable.
 
 - recibe rango;
 - genera PDF;
-- incluye resumen, riesgos y errores.
+- incluye resumen, riesgos y errores;
+- persiste registro en `reports`;
+- puede descargarse por usuario autenticado del tenant.
 
 **Evidencia esperada**
 
@@ -401,7 +403,7 @@ Transformar eventos y decisiones en evidencia ejecutiva exportable.
 
 **Estado**
 
-Pendiente.
+Cerrado para Sprint 6.
 
 ## BLI-011 Registrar notificaciones email
 
