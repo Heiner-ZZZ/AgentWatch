@@ -58,6 +58,26 @@ CREATE TABLE IF NOT EXISTS api_keys (
   rotated_at TIMESTAMPTZ
 );
 
+CREATE TABLE IF NOT EXISTS auth_sessions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token_hash TEXT NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  revoked_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE auth_sessions
+  ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMPTZ;
+
+UPDATE auth_sessions
+SET expires_at = created_at + INTERVAL '7 days'
+WHERE expires_at IS NULL;
+
+ALTER TABLE auth_sessions
+  ALTER COLUMN expires_at SET NOT NULL;
+
 CREATE TABLE IF NOT EXISTS audit_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL,
@@ -67,11 +87,18 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   target_id UUID,
   before_state JSONB,
   after_state JSONB,
+  ip_address TEXT,
+  user_agent TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+ALTER TABLE audit_logs
+  ADD COLUMN IF NOT EXISTS ip_address TEXT,
+  ADD COLUMN IF NOT EXISTS user_agent TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_organization_users_org ON organization_users (organization_id);
 CREATE INDEX IF NOT EXISTS idx_organization_users_user ON organization_users (user_id);
 CREATE INDEX IF NOT EXISTS idx_agents_org ON agents (organization_id);
 CREATE INDEX IF NOT EXISTS idx_api_keys_agent ON api_keys (agent_id);
+CREATE INDEX IF NOT EXISTS idx_auth_sessions_token_hash ON auth_sessions (token_hash);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_org_time ON audit_logs (organization_id, created_at DESC);
