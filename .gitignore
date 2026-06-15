@@ -50,3 +50,7 @@ test-results/
 # Python services
 services/ai/.venv/
 services/ai/.pytest_cache/
+
+# Local docs not intended for git
+Docs/*
+!Docs/README.md
