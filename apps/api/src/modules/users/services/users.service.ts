@@ -31,8 +31,11 @@ export class UsersService {
 
     return users.map((user) => ({
       id: user.id,
+      organizationId: user.organizationId,
+      organizationName: user.organizationName,
       email: user.email,
       fullName: user.fullName,
+      role: user.role as 'owner' | 'admin' | 'operator' | 'auditor' | 'viewer' | 'integrator',
       status: user.status as 'active' | 'inactive',
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
@@ -79,8 +82,11 @@ export class UsersService {
 
     return {
       id: user.id,
+      organizationId: payload.organizationId,
+      organizationName: '',
       email: user.email,
       fullName: user.fullName,
+      role: payload.role,
       status: user.status as 'active' | 'inactive',
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq, inArray } from 'drizzle-orm';
 import { DatabaseService } from '../services/database.service';
-import { organizationUsers, users } from '../schema';
+import { organizationUsers, organizations, users } from '../schema';
 
 @Injectable()
 export class UsersRepository {
@@ -17,16 +17,20 @@ export class UsersRepository {
     }
 
     return this.databaseService.db
-      .selectDistinct({
+      .select({
         id: users.id,
         email: users.email,
         fullName: users.fullName,
         status: users.status,
+        organizationId: organizationUsers.organizationId,
+        organizationName: organizations.name,
+        role: organizationUsers.role,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
       })
       .from(users)
       .innerJoin(organizationUsers, eq(organizationUsers.userId, users.id))
+      .innerJoin(organizations, eq(organizationUsers.organizationId, organizations.id))
       .where(inArray(organizationUsers.organizationId, organizationIds));
   }
 
