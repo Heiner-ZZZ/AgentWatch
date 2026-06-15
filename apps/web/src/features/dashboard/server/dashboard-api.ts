@@ -7,13 +7,21 @@ import type {
 
 const defaultApiBaseUrl = "http://localhost:4000/api/v1";
 
-const dashboardCredentials = {
-  email: process.env.AGENTWATCH_DASHBOARD_EMAIL ?? "owner@agentwatch.local",
-  password: process.env.AGENTWATCH_DASHBOARD_PASSWORD ?? "demo1234",
-};
-
 function getApiBaseUrl() {
   return (process.env.AGENTWATCH_API_BASE_URL ?? defaultApiBaseUrl).replace(/\/+$/, "");
+}
+
+function getDashboardCredentials() {
+  const email = process.env.AGENTWATCH_DASHBOARD_EMAIL;
+  const password = process.env.AGENTWATCH_DASHBOARD_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error(
+      "Missing AGENTWATCH_DASHBOARD_EMAIL or AGENTWATCH_DASHBOARD_PASSWORD for the web console.",
+    );
+  }
+
+  return { email, password };
 }
 
 async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
@@ -34,6 +42,7 @@ async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export async function createDashboardSession() {
+  const dashboardCredentials = getDashboardCredentials();
   const response = await fetchApi<ApiEnvelope<DashboardSessionDto>>("/auth/login", {
     method: "POST",
     body: JSON.stringify(dashboardCredentials),

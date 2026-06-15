@@ -3,13 +3,26 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ShieldCheck, ChevronLeft, ChevronRight, LogOut, User } from "lucide-react"
+import { ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react"
 import { primaryNavigation } from "@/config/navigation"
 import { cn } from "@/lib/utils"
 
-export function Sidebar() {
+type SidebarProps = {
+  currentUser: {
+    fullName: string | null
+    email: string | null
+  }
+}
+
+export function Sidebar({ currentUser }: SidebarProps) {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+  const initials = (currentUser.fullName ?? "AW")
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase()
 
   return (
     <aside
@@ -60,7 +73,7 @@ export function Sidebar() {
         {collapsed ? (
           <div className="flex flex-col items-center gap-2">
             <div className="flex size-8 items-center justify-center rounded-full bg-slate-800 text-xs font-medium text-white">
-              JD
+              {initials}
             </div>
             <button
               onClick={() => setCollapsed(false)}
@@ -73,22 +86,21 @@ export function Sidebar() {
           <>
             <div className="mb-2 flex items-center gap-3">
               <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-800 text-xs font-medium text-white">
-                JD
+                {initials}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-white">Juan admin</p>
-                <p className="truncate text-xs text-slate-500">juan@agentes.ai</p>
+                <p className="truncate text-sm font-medium text-white">
+                  {currentUser.fullName ?? "Sesión AgentWatch"}
+                </p>
+                <p className="truncate text-xs text-slate-500">
+                  {currentUser.email ?? "Credenciales del dashboard configuradas por entorno"}
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <button className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-500 transition-colors hover:bg-slate-800 hover:text-slate-300">
-                <User className="size-3.5" />
-                Perfil
-              </button>
-              <button className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-500 transition-colors hover:bg-slate-800 hover:text-slate-300">
-                <LogOut className="size-3.5" />
-                Salir
-              </button>
+            <div className="flex items-center">
+              <div className="rounded-lg bg-slate-900/70 px-2.5 py-1.5 text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                sesión autenticada
+              </div>
               <button
                 onClick={() => setCollapsed(true)}
                 className="ml-auto rounded-lg p-1.5 text-slate-500 hover:bg-slate-800 hover:text-white"

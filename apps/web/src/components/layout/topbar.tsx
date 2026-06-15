@@ -1,12 +1,57 @@
-import { Search, Bell } from "lucide-react"
+ "use client"
+
+import { useMemo } from "react"
+import { usePathname } from "next/navigation"
+import { Search } from "lucide-react"
+
+const sectionLabels: Record<string, { title: string; subtitle: string }> = {
+  "/dashboard": {
+    title: "Dashboard",
+    subtitle: "Monitoreo operativo en tiempo real",
+  },
+  "/organizations": {
+    title: "Organizaciones",
+    subtitle: "Tenancy, región y plan por cliente",
+  },
+  "/users": {
+    title: "Usuarios",
+    subtitle: "Accesos, roles y responsables",
+  },
+  "/agents": {
+    title: "Agentes",
+    subtitle: "Identidad técnica, autonomía y rotación de credenciales",
+  },
+  "/approvals": {
+    title: "Aprobaciones",
+    subtitle: "Control humano sobre acciones sensibles",
+  },
+  "/reports": {
+    title: "Reportes",
+    subtitle: "Evidencia ejecutiva y exportable",
+  },
+  "/settings": {
+    title: "Configuración",
+    subtitle: "Gobierno base del tenant y superficies del producto",
+  },
+}
 
 export function Topbar() {
+  const pathname = usePathname()
+  const section = useMemo(() => {
+    return (
+      Object.entries(sectionLabels).find(([path]) =>
+        pathname === path || pathname.startsWith(`${path}/`),
+      )?.[1] ?? sectionLabels["/dashboard"]
+    )
+  }, [pathname])
+
   return (
     <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3">
       <div className="flex items-center gap-4">
-        <nav className="flex items-center gap-2 text-sm text-slate-400">
-          <span className="text-slate-900">Dashboard</span>
-        </nav>
+        <div>
+          <p className="text-sm font-semibold text-slate-900">{section.title}</p>
+          <p className="text-xs text-slate-500">{section.subtitle}</p>
+        </div>
       </div>
       <div className="flex items-center gap-3">
         <div className="relative">
@@ -17,12 +62,9 @@ export function Topbar() {
             className="h-8 w-56 rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-xs text-slate-600 placeholder:text-slate-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
         </div>
-        <button className="relative rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600">
-          <Bell className="size-4" />
-          <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-[var(--primary)] text-[9px] font-medium text-white">
-            3
-          </span>
-        </button>
+        <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-slate-500">
+          tenant console
+        </div>
       </div>
     </header>
   )
