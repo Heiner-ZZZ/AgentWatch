@@ -10,7 +10,7 @@ import { AuthService } from '../../../modules/auth/services/auth.service';
 export class SessionAuthGuard implements CanActivate {
   constructor(private readonly authService: AuthService) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authorization = request.headers.authorization;
 
@@ -19,7 +19,7 @@ export class SessionAuthGuard implements CanActivate {
     }
 
     const token = authorization.replace('Bearer ', '').trim();
-    const session = this.authService.getSessionByToken(token);
+    const session = await this.authService.getSessionByToken(token);
 
     if (!session) {
       throw new UnauthorizedException('Invalid or expired session.');

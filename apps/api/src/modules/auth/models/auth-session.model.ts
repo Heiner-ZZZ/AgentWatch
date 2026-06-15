@@ -4,4 +4,5 @@ export type AuthSessionModel = {
   email: string;
   fullName: string;
   createdAt: string;
+  expiresAt: string;
 };
