@@ -42,4 +42,19 @@ Convertir eventos tecnicos en explicaciones utiles y clasificarlos por riesgo.
 
 ## Estado actual
 
-Base implementada con reglas iniciales; falta endurecimiento y calibracion.
+Cerrado para su alcance MVP.
+
+## Evidencia de cierre
+
+- `business_summary` generado con plantillas utiles para negocio;
+- fallback seguro cuando el detalle tecnico contiene secretos o credenciales;
+- riesgo `low`, `medium`, `high`, `critical` persistido;
+- elevacion de riesgo por acciones destructivas, permisos, configuracion productiva y exportaciones sensibles;
+- pruebas unitarias dedicadas para resumen y riesgo;
+- prueba e2e dedicada en `apps/api/test/sprint-4.e2e-spec.ts`.
+
+## Deuda posterior que no bloquea el cierre
+
+- reglas configurables por tenant;
+- explicacion estructurada del motivo de riesgo;
+- calibracion historica y anomalias.
