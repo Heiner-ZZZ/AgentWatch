@@ -27,11 +27,11 @@ Detalle formal por item:
 | BLI-003 | Registro de agentes y rotate key | backend/security | `17.4`, `24.3` | 1 | base implementada |
 | BLI-004 | Ingesta de eventos con idempotencia | backend/data | `17.5`, `24.4` | 2 | cerrado Sprint 2 |
 | BLI-005 | Timeline filtrable por tenant | backend/frontend | `24.5`, `HU-03` | 3 | cerrado Sprint 3 |
-| BLI-006 | Resumen en espanol por plantilla | backend/product | `24.6`, `FEA-06` | 4 | base implementada |
-| BLI-007 | Riesgo `low/medium/high/critical` | backend/product | `15.5`, `24.6` | 4 | base implementada |
-| BLI-008 | Crear aprobacion al detectar riesgo alto | backend/product | `24.7`, `HU-05` | 5 | pendiente |
-| BLI-009 | Vista de aprobaciones pendientes | frontend/backend | `24.7` | 5 | pendiente |
-| BLI-010 | Generar reporte PDF semanal | backend/reporting | `24.8`, `HU-06` | 6 | pendiente |
+| BLI-006 | Resumen en espanol por plantilla | backend/product | `24.6`, `FEA-06` | 4 | cerrado Sprint 4 |
+| BLI-007 | Riesgo `low/medium/high/critical` | backend/product | `15.5`, `24.6` | 4 | cerrado Sprint 4 |
+| BLI-008 | Crear aprobacion al detectar riesgo alto | backend/product | `24.7`, `HU-05` | 5 | cerrado Sprint 5 |
+| BLI-009 | Vista de aprobaciones pendientes | frontend/backend | `24.7` | 5 | cerrado Sprint 5 |
+| BLI-010 | Generar reporte PDF semanal | backend/reporting | `24.8`, `HU-06` | 6 | cerrado Sprint 6 |
 | BLI-011 | Registrar notificaciones email | backend/integration | `24.9`, `HU-07` | 7 | pendiente |
 | BLI-012 | Guia o plantilla n8n | docs/integration | `24.9` | 7 | pendiente |
 | BLI-013 | Hardening tenancy, audit y readiness | cross-cutting | `24.10` | 8 | pendiente |
