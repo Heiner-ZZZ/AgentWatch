@@ -1,6 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { AgentsRepository } from '../../../infrastructure/database/repositories/agents.repository';
 import { EventsRepository } from '../../../infrastructure/database/repositories/events.repository';
+import { ApprovalsService } from '../../approvals/services/approvals.service';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { EventModel } from '../models/event.model';
 import { TimelineEventModel } from '../models/timeline-event.model';
@@ -12,6 +13,7 @@ export class CreateEventUseCase {
   constructor(
     private readonly agentsRepository: AgentsRepository,
     private readonly eventsRepository: EventsRepository,
+    private readonly approvalsService: ApprovalsService,
     private readonly businessSummaryService: BusinessSummaryService,
     private readonly riskClassificationService: RiskClassificationService,
   ) {}
@@ -72,6 +74,15 @@ export class CreateEventUseCase {
       requiresApproval: riskDecision.requiresApproval,
       idempotencyKey: payload.idempotencyKey,
     });
+
+    if (riskDecision.requiresApproval && (riskDecision.riskLevel === 'high' || riskDecision.riskLevel === 'critical')) {
+      await this.approvalsService.createForEvent({
+        organizationId: agentKeyContext.organizationId,
+        eventId: event.id,
+        riskLevel: riskDecision.riskLevel,
+        businessSummary,
+      });
+    }
 
     return this.mapEvent(event);
   }

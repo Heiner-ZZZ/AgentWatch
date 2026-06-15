@@ -5,6 +5,7 @@ import { AgentsRepository } from '../../infrastructure/database/repositories/age
 import { ApiKeysRepository } from '../../infrastructure/database/repositories/api-keys.repository';
 import { EventsRepository } from '../../infrastructure/database/repositories/events.repository';
 import { OrganizationUsersRepository } from '../../infrastructure/database/repositories/organization-users.repository';
+import { ApprovalsModule } from '../approvals/approvals.module';
 import { AuthModule } from '../auth/auth.module';
 import { EventsController } from './controllers/events.controller';
 import { BusinessSummaryService } from './services/business-summary.service';
@@ -13,7 +14,7 @@ import { RiskClassificationService } from './services/risk-classification.servic
 import { CreateEventUseCase } from './use-cases/create-event.use-case';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, ApprovalsModule],
   controllers: [EventsController],
   providers: [
     EventsService,

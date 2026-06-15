@@ -123,4 +123,46 @@ export class EventsRepository {
     const [event] = await this.databaseService.db.insert(events).values(input).returning();
     return event;
   }
+
+  async updateStatus(eventId: string, status: 'approved' | 'rejected' | 'pending_approval' | 'recorded') {
+    const [event] = await this.databaseService.db
+      .update(events)
+      .set({
+        status,
+      })
+      .where(eq(events.id, eventId))
+      .returning();
+
+    return event ?? null;
+  }
+
+  findForReport(input: { organizationId: string; periodStart: Date; periodEnd: Date }) {
+    return this.databaseService.db
+      .select({
+        id: events.id,
+        organizationId: events.organizationId,
+        agentId: events.agentId,
+        agentName: agents.name,
+        eventType: events.eventType,
+        category: events.category,
+        source: events.source,
+        sourceApp: events.sourceApp,
+        occurredAt: events.occurredAt,
+        riskLevel: events.riskLevel,
+        status: events.status,
+        businessSummary: events.businessSummary,
+        technicalSummary: events.technicalSummary,
+        requiresApproval: events.requiresApproval,
+      })
+      .from(events)
+      .innerJoin(agents, eq(events.agentId, agents.id))
+      .where(
+        and(
+          eq(events.organizationId, input.organizationId),
+          gte(events.occurredAt, input.periodStart),
+          lte(events.occurredAt, input.periodEnd),
+        ),
+      )
+      .orderBy(desc(events.occurredAt), desc(events.receivedAt));
+  }
 }
