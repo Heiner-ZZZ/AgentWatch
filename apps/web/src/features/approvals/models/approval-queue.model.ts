@@ -21,6 +21,10 @@ export type ApprovalQueueItem = {
 export type ApprovalQueueOverview = {
   pendingCount: number;
   approvals: ApprovalQueueItem[];
+  organizationCount: number;
+  agentCount: number;
+  blockingCount: number;
+  highRiskCount: number;
   connectionState: "live" | "empty" | "error";
   message: string | null;
 };

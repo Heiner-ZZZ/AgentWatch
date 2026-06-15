@@ -39,11 +39,23 @@ export async function getApprovalQueueOverview(): Promise<ApprovalQueueOverview>
   try {
     const approvals = await fetchPendingApprovals();
     const mappedApprovals = approvals.map(mapApproval);
+    const organizationCount = new Set(mappedApprovals.map((item) => item.organizationId)).size;
+    const agentCount = new Set(
+      mappedApprovals.map((item) => item.agentName ?? item.eventType),
+    ).size;
+    const blockingCount = mappedApprovals.filter((item) => item.isBlocking).length;
+    const highRiskCount = mappedApprovals.filter(
+      (item) => item.riskLevel === "high" || item.riskLevel === "critical",
+    ).length;
 
     if (mappedApprovals.length === 0) {
       return {
         pendingCount: 0,
         approvals: [],
+        organizationCount,
+        agentCount,
+        blockingCount,
+        highRiskCount,
         connectionState: "empty",
         message: "No hay aprobaciones pendientes en este momento.",
       };
@@ -52,6 +64,10 @@ export async function getApprovalQueueOverview(): Promise<ApprovalQueueOverview>
     return {
       pendingCount: mappedApprovals.length,
       approvals: mappedApprovals,
+      organizationCount,
+      agentCount,
+      blockingCount,
+      highRiskCount,
       connectionState: "live",
       message: null,
     };
@@ -59,6 +75,10 @@ export async function getApprovalQueueOverview(): Promise<ApprovalQueueOverview>
     return {
       pendingCount: 0,
       approvals: [],
+      organizationCount: 0,
+      agentCount: 0,
+      blockingCount: 0,
+      highRiskCount: 0,
       connectionState: "error",
       message:
         error instanceof Error
