@@ -1,12 +1,10 @@
-import { Card } from "@/components/ui/card";
+import { SettingsPanel } from "@/features/settings/components/settings-panel";
+import { getSettingsOverview } from "@/features/settings/server/get-settings-overview";
 
-export default function SettingsPage() {
-  return (
-    <Card className="p-6">
-      <h2 className="text-xl font-semibold text-slate-950">Configuracion</h2>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        Espacio reservado para dominio, retencion, branding y reglas de riesgo.
-      </p>
-    </Card>
-  );
+export const dynamic = "force-dynamic";
+
+export default async function SettingsPage() {
+  const overview = await getSettingsOverview();
+
+  return <SettingsPanel overview={overview} />;
 }
