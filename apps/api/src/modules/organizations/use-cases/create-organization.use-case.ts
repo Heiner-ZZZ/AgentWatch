@@ -1,40 +1,68 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PlatformStoreService } from '../../../common/platform/services/platform-store.service';
+import { AuditService } from '../../audit/services/audit.service';
+import { OrganizationUsersRepository } from '../../../infrastructure/database/repositories/organization-users.repository';
+import { OrganizationsRepository } from '../../../infrastructure/database/repositories/organizations.repository';
+import { UsersRepository } from '../../../infrastructure/database/repositories/users.repository';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
 import { OrganizationModel } from '../models/organization.model';
 
 @Injectable()
 export class CreateOrganizationUseCase {
-  constructor(private readonly store: PlatformStoreService) {}
+  constructor(
+    private readonly auditService: AuditService,
+    private readonly usersRepository: UsersRepository,
+    private readonly organizationsRepository: OrganizationsRepository,
+    private readonly organizationUsersRepository: OrganizationUsersRepository,
+  ) {}
 
-  execute(payload: CreateOrganizationDto, ownerUserId: string): OrganizationModel {
-    const user = this.store.users.find((candidate) => candidate.id === ownerUserId);
+  async execute(
+    payload: CreateOrganizationDto,
+    ownerUserId: string,
+  ): Promise<OrganizationModel> {
+    const user = await this.usersRepository.findById(ownerUserId);
 
     if (!user) {
       throw new NotFoundException('Owner user not found.');
     }
 
-    const now = this.store.now();
-    const organization = {
-      id: this.store.generateId(),
+    const organization = await this.organizationsRepository.create({
       name: payload.name,
       countryCode: payload.countryCode,
       timezone: payload.timezone,
       plan: payload.plan,
       status: payload.status,
-      createdAt: now,
-      updatedAt: now,
-    };
+    });
 
-    this.store.organizations.push(organization);
-    this.store.memberships.push({
-      id: this.store.generateId(),
+    await this.organizationUsersRepository.createMembership({
       organizationId: organization.id,
       userId: ownerUserId,
       role: 'owner',
-      createdAt: now,
     });
 
-    return organization;
+    await this.auditService.record({
+      organizationId: organization.id,
+      actorUserId: ownerUserId,
+      action: 'organization.created',
+      targetType: 'organization',
+      targetId: organization.id,
+      afterState: {
+        name: organization.name,
+        countryCode: organization.countryCode,
+        timezone: organization.timezone,
+        plan: organization.plan,
+        status: organization.status,
+      },
+    });
+
+    return {
+      id: organization.id,
+      name: organization.name,
+      countryCode: organization.countryCode,
+      timezone: organization.timezone,
+      plan: organization.plan,
+      status: organization.status as 'active' | 'inactive',
+      createdAt: organization.createdAt.toISOString(),
+      updatedAt: organization.updatedAt.toISOString(),
+    };
   }
 }
