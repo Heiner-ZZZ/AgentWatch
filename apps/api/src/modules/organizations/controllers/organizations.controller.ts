@@ -12,28 +12,35 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Get()
-  findAll() {
-    return apiResponse(this.organizationsService.findAll());
+  async findAll(@CurrentUser() user: { id: string }) {
+    return apiResponse(await this.organizationsService.findAll(user.id));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return apiResponse(this.organizationsService.findOne(id));
+  async findOne(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return apiResponse(await this.organizationsService.findOne(id, user.id));
   }
 
   @Post()
-  create(
+  async create(
     @Body() payload: CreateOrganizationDto,
     @CurrentUser() user: { id: string },
   ) {
     return apiResponse(
-      this.organizationsService.create(payload, user.id),
+      await this.organizationsService.create(payload, user.id),
       'Organization created.',
     );
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateOrganizationDto) {
-    return apiResponse(this.organizationsService.update(id, payload), 'Organization updated.');
+  async update(
+    @Param('id') id: string,
+    @Body() payload: UpdateOrganizationDto,
+    @CurrentUser() user: { id: string },
+  ) {
+    return apiResponse(
+      await this.organizationsService.update(id, payload, user.id),
+      'Organization updated.',
+    );
   }
 }
